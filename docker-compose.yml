@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  bgpd_65001:
+    image: frrouting/frr:latest
+    restart: always
+    container_name: as65001
+    volumes:
+        - ./bgpd.conf:/etc/frr/bgpd.conf
+    entrypoint: ['/usr/lib/frr/bgpd', '-n', '-S', '-p', '179']
+    cap_add:
+        - NET_ADMIN
+    ports:
+      - 180:179
+
+  bgpy:
+    image: bgpy
+    restart: always
+    volumes:
+      - './:/code'
+    
